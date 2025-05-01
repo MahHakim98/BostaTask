@@ -15,7 +15,6 @@
     </properties>
 
     <dependencies>
-        <!-- REST Assured for API Testing -->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
@@ -23,7 +22,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- JSON path for parsing responses -->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>json-path</artifactId>
@@ -31,7 +29,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- TestNG (or JUnit if you prefer) -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>

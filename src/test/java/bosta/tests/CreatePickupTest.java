@@ -10,7 +10,7 @@ public class CreatePickupTest {
     public void createPickup() {
         String token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ik1uN3FpVk9jQnFiWlNaTUFwbzFMdyIsInJvbGVzIjpbIkJVU0lORVNTX0FETUlOIl0sImJ1c2luZXNzQWRtaW5JbmZvIjp7ImJ1c2luZXNzSWQiOiJBWG5keU5kbXh6V2EweHVFdVJycmIiLCJidXNpbmVzc05hbWUiOiLYqtiz2Kog2KjYstmG2LMifSwiY291bnRyeSI6eyJfaWQiOiI2MGU0NDgyYzdjYjdkNGJjNDg0OWM0ZDUiLCJuYW1lIjoiRWd5cHQiLCJuYW1lQXIiOiLZhdi12LEiLCJjb2RlIjoiRUcifSwiZW1haWwiOiJtb2hhbWVkLmVsa2hvbGFleSsxQGJvc3RhLmNvIiwicGhvbmUiOiIrMjAxMjAyNDM2MzA5IiwiZ3JvdXAiOnsiX2lkIjoiWGFxbENGQSIsIm5hbWUiOiJCVVNJTkVTU19GVUxMX0FDQ0VTUyIsImNvZGUiOjExNX0sInRva2VuVHlwZSI6IkFDQ0VTUyIsInRva2VuVmVyc2lvbiI6IlYyIiwic2Vzc2lvbklkIjoiMDFKUldKNDgzQVNGODQ2NktEWFBZWkZNUTIiLCJpYXQiOjE3NDQ3MTUyNjAsImV4cCI6MTc0NTkyNDg2MH0.jjFo0wZ1Dx8_mpA2tFPD3bsqVClRVxo4CWnFS2E3tpg";
 
-        // Updated request body with SQL Injection and XSS Payloads
+        // Updated body with SQL and XSS injections
         String requestBody = """
         {
           "businessLocationId": "' UNION SELECT null, null, null --", 
@@ -23,7 +23,7 @@ public class CreatePickupTest {
           "numberOfParcels": "3",
           "hasBigItems": false,
           "repeatedData": {
-            "repeatedType": "<script>alert('XSS in RepeatedType')</script>"  
+            "repeatedType": "<script>alert('XSS in RepeatedType')</script>"   
           },
           "creationSrc": "Web"
         }
@@ -33,7 +33,7 @@ public class CreatePickupTest {
                 .baseUri("https://stg-app.bosta.co")
                 .basePath("/api/v2/pickups")
                 .contentType(ContentType.JSON)
-                .header("authorization", token) // Token here, no need to prefix "Bearer " explicitly
+                .header("authorization", token)
                 .header("accept", "application/json, text/plain, */*")
                 .header("accept-language", "en")
                 .header("origin", "https://stg-business.bosta.co")
@@ -48,11 +48,11 @@ public class CreatePickupTest {
                 .header("user-agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36")
                 .header("x-device-fingerprint", "rvmsmy")
                 .header("x-device-id", "eyJpcCI6IjQ1LjI0Mi43Ni4xNTUiLCJmaW5nZXJwcmludCI6InVibjF3MyIsInVzZXJBZ2VudCI6Ik1vemlsbGEvNS4wIChYMTE7IExpbnV4IHg4Nl82N CkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lL zEzMS4wLjAuMCBTYWZhcmkvNTM3LjM2In0=")
-                .body(requestBody)  // Updated body with SQL and XSS injections
+                .body(requestBody)
                 .when()
                 .post()
                 .then()
                 .log().all()
-                .statusCode(201); // Expecting a successful response with 201 Created
+                .statusCode(201);
     }
 }

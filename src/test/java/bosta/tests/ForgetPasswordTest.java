@@ -8,9 +8,9 @@ public class ForgetPasswordTest {
 
     @Test
     public void forgetPassword() {
-        // Corrected request body
+
         String requestBody = "{\n" +
-                "  \"email\": \"firstname.lastname@bosta.co\",\n" + // Valid email format
+                "  \"email\": \"firstname.lastname@bosta.co\",\n" +
                 "  \"password\": \"<script>alert('XSS in Password')</script>\"\n" + // XSS Injection attempt
                 "}";
 
@@ -19,12 +19,12 @@ public class ForgetPasswordTest {
                 .baseUri("https://stg-app.bosta.co")
                 .basePath("/api/v2/users/forget-password")
                 .contentType(ContentType.JSON)
-                .body(requestBody)  // Corrected body with SQL and XSS injections
+                .body(requestBody)
                 .when()
                 .post()
                 .then()
                 .log().all()
-                .statusCode(200); // Expecting a successful response with 200 OK
+                .statusCode(200);
     }
 
 }
